@@ -1,0 +1,17 @@
+FROM apache/airflow:2.10.5-python3.12
+
+USER root
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends openjdk-17-jre-headless libgomp1 procps \
+    && rm -rf /var/lib/apt/lists/*
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+
+COPY pyproject.toml README.md /opt/hoico/
+COPY src /opt/hoico/src
+COPY transformations /opt/hoico/transformations
+# Airflow 2.10 needs SQLAlchemy 1.4. HOICO is installed in its own virtualenv so the two do not share a site-packages.
+RUN python -m venv /opt/hoico-venv \
+    && PIP_CONSTRAINT= PIP_USER=false /opt/hoico-venv/bin/pip install --no-cache-dir "setuptools==75.8.0" \
+    && PIP_CONSTRAINT= PIP_USER=false /opt/hoico-venv/bin/pip install --no-cache-dir -e /opt/hoico \
+    && chown -R airflow:root /opt/hoico /opt/hoico-venv
+USER airflow

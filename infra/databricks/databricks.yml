@@ -1,0 +1,28 @@
+bundle:
+  name: hoico
+
+variables:
+  workspace_host:
+    description: Databricks Free Edition workspace URL, with no trailing path.
+  catalog:
+    description: Unity Catalog name shown in Catalog Explorer.
+    default: main
+
+targets:
+  free:
+    default: true
+    mode: development
+    workspace:
+      host: ${var.workspace_host}
+
+resources:
+  jobs:
+    hoico_medallion:
+      name: hoico_medallion
+      tasks:
+        - task_key: medallion
+          notebook_task:
+            notebook_path: ./notebooks/medallion.py
+            base_parameters:
+              catalog: ${var.catalog}
+              schema: hoico

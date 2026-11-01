@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: spark_gold
+    schema: spark_gold
+    tables:
+      - name: fact_arrivals_hourly
+      - name: fact_occupancy_hourly
+  - name: silver
+    schema: silver
+    tables:
+      - name: quarantine_row
+      - name: encounter

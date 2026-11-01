@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+mlruns/
+data/generated/
+data/lake/
+app/node_modules/
+app/.next/
+.git/

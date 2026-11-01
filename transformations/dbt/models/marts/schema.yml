@@ -1,0 +1,33 @@
+version: 2
+
+models:
+  - name: fact_arrivals_daily
+    description: Eligible arrivals by facility, service line, and local date.
+    columns:
+      - name: facility_id
+        tests: [not_null]
+      - name: service_line
+        tests: [not_null]
+      - name: arrival_date
+        tests: [not_null]
+      - name: arrivals
+        tests: [not_null]
+  - name: fact_capacity_pressure
+    description: Daily mean census and usable beds. Occupancy is null when usable beds are zero.
+    columns:
+      - name: ward_id
+        tests: [not_null]
+      - name: census_date
+        tests: [not_null]
+      - name: occupied_beds
+        tests: [not_null]
+      - name: pressure_band
+        tests:
+          - accepted_values:
+              values: ["within_capacity", "elevated", "over_capacity", "undefined"]
+  - name: data_quality_results
+    columns:
+      - name: reject_reason
+        tests: [not_null]
+      - name: rejected_rows
+        tests: [not_null]

@@ -1,0 +1,16 @@
+name: hoico
+version: "1.0.0"
+config-version: 2
+profile: hoico
+model-paths: ["models"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+
+models:
+  hoico:
+    marts:
+      +materialized: table
+      +schema: gold
+
+vars:
+  pressure_threshold: 0.85
